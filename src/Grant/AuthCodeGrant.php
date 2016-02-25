@@ -150,8 +150,14 @@ class AuthCodeGrant extends AbstractGrant
 
         foreach ($authParams['scopes'] as $scope) {
             $authCode->associateScope($scope);
+            
+            //from tag 4.1.5 to fix scope association bug.
+            $session->associateScope($scope);
         }
 
+        //from tag 4.1.5 to fix scope association bug
+        $session->save();
+        
         $authCode->setSession($session);
         $authCode->save();
 
